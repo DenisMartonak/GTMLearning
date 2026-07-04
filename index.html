@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>GTM Playground — Learn Google Tag Manager</title>
+
+<!--
+  ============================================================
+   STEP 1 — Google Tag Manager  (paste your own container ID)
+  ============================================================
+  Replace GTM-NBJGCQTK below (TWO places: this <script> and the
+  <noscript> in <body>) with your real container ID from
+  https://tagmanager.google.com  →  Admin → Install Google Tag Manager.
+
+  Until you do, GTM will 404 silently — the dataLayer demo on this
+  page still works so you can learn the mechanics offline.
+-->
+<script>
+  // The dataLayer must exist BEFORE the GTM snippet runs.
+  window.dataLayer = window.dataLayer || [];
+</script>
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-NBJGCQTK');</script>
+<!-- End Google Tag Manager -->
+
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NBJGCQTK"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<header class="site-header">
+  <div class="wrap">
+    <div class="brand">
+      <span class="logo">◆</span>
+      <div>
+        <h1>GTM Playground</h1>
+        <p class="tagline">A hands-on sandbox for learning Google Tag Manager</p>
+      </div>
+    </div>
+    <div id="gtmStatus" class="status status--unknown">Checking GTM…</div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- ================= SETUP ================= -->
+  <section class="card" id="setup">
+    <h2><span class="num">1</span> Set up your container</h2>
+    <p class="lead">
+      This page already contains the standard GTM snippet in the
+      <code>&lt;head&gt;</code> and a <code>&lt;noscript&gt;</code> fallback right
+      after <code>&lt;body&gt;</code>. To make it live with <em>your</em> account:
+    </p>
+    <ol class="steps">
+      <li>Create a container at <a href="https://tagmanager.google.com" target="_blank" rel="noopener">tagmanager.google.com</a> and copy your ID (looks like <code>GTM-ABC1234</code>).</li>
+      <li>Open <code>index.html</code> and replace <code>GTM-NBJGCQTK</code> in <strong>both</strong> places.</li>
+      <li>In GTM, click <strong>Preview</strong>, enter this page's URL, and watch events arrive in Tag Assistant.</li>
+    </ol>
+    <div class="callout">
+      <strong>No container yet?</strong> Everything below still works — the live
+      <code>dataLayer</code> inspector shows exactly what GTM would receive, so you
+      can learn the data model before wiring up tags.
+    </div>
+  </section>
+
+  <!-- ================= EVENT TESTERS ================= -->
+  <section class="card" id="events">
+    <h2><span class="num">2</span> Fire events into the dataLayer</h2>
+    <p class="lead">
+      Every button below <code>push()</code>es a real event onto
+      <code>window.dataLayer</code>. In GTM, create a
+      <strong>Custom Event</strong> trigger matching the event name to test tag firing.
+    </p>
+
+    <div class="grid">
+
+      <div class="tester">
+        <h3>Custom event</h3>
+        <p>The bread and butter. Fires <code>event: "custom_event"</code>.</p>
+        <button class="btn" data-demo="custom">Push custom_event</button>
+        <p class="hint">Trigger: Custom Event → <code>custom_event</code></p>
+      </div>
+
+      <div class="tester">
+        <h3>Button click</h3>
+        <p>Simulates a tracked CTA click with contextual data.</p>
+        <button class="btn btn--accent" data-demo="cta">Track CTA click</button>
+        <p class="hint">Sends <code>button_text</code> + <code>button_id</code></p>
+      </div>
+
+      <div class="tester">
+        <h3>Form submission</h3>
+        <p>Fill it in and submit — no page reload, event pushed on submit.</p>
+        <form id="demoForm" class="mini-form">
+          <input type="text" name="name" placeholder="Your name" required />
+          <input type="email" name="email" placeholder="you@example.com" required />
+          <button class="btn" type="submit">Submit form</button>
+        </form>
+        <p class="hint">Fires <code>form_submit</code> with field values</p>
+      </div>
+
+      <div class="tester">
+        <h3>Outbound link</h3>
+        <p>Click to push a <code>click_outbound</code> event (link is safe/no-op).</p>
+        <a href="#" class="btn btn--ghost" data-demo="outbound">Visit example.com ↗</a>
+        <p class="hint">Great for testing Link Click triggers</p>
+      </div>
+
+      <div class="tester">
+        <h3>Scroll depth</h3>
+        <p>Scroll this page — milestones fire once each at 25/50/75/100%.</p>
+        <div class="pill-row">
+          <span class="pill" data-scroll="25">25%</span>
+          <span class="pill" data-scroll="50">50%</span>
+          <span class="pill" data-scroll="75">75%</span>
+          <span class="pill" data-scroll="100">100%</span>
+        </div>
+        <p class="hint">Fires <code>scroll_depth</code> per milestone</p>
+      </div>
+
+      <div class="tester">
+        <h3>Timer / engagement</h3>
+        <p>Fires <code>timer_10s</code> automatically after 10 seconds on page.</p>
+        <div class="pill-row"><span class="pill" id="timerPill">waiting…</span></div>
+        <p class="hint">Test Timer triggers or engagement tags</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= ECOMMERCE ================= -->
+  <section class="card" id="ecommerce">
+    <h2><span class="num">3</span> GA4 Ecommerce events</h2>
+    <p class="lead">
+      These push the standard <strong>GA4 ecommerce</strong> schema
+      (<code>view_item</code>, <code>add_to_cart</code>, <code>purchase</code>) with an
+      <code>ecommerce</code> object. Use them to practice ecommerce tags &amp; variables.
+    </p>
+
+    <div class="products">
+      <article class="product" data-id="SKU-01" data-name="Starter Mug" data-price="12.00">
+        <div class="product__img">☕</div>
+        <h3>Starter Mug</h3>
+        <p class="price">€12.00</p>
+        <button class="btn btn--sm" data-demo="view_item">View item</button>
+        <button class="btn btn--sm btn--accent" data-demo="add_to_cart">Add to cart</button>
+      </article>
+      <article class="product" data-id="SKU-02" data-name="Pro Notebook" data-price="24.50">
+        <div class="product__img">📓</div>
+        <h3>Pro Notebook</h3>
+        <p class="price">€24.50</p>
+        <button class="btn btn--sm" data-demo="view_item">View item</button>
+        <button class="btn btn--sm btn--accent" data-demo="add_to_cart">Add to cart</button>
+      </article>
+      <article class="product" data-id="SKU-03" data-name="Focus Timer" data-price="39.90">
+        <div class="product__img">⏱️</div>
+        <h3>Focus Timer</h3>
+        <p class="price">€39.90</p>
+        <button class="btn btn--sm" data-demo="view_item">View item</button>
+        <button class="btn btn--sm btn--accent" data-demo="add_to_cart">Add to cart</button>
+      </article>
+    </div>
+
+    <div class="cart-bar">
+      <span id="cartSummary">Cart: 0 items · €0.00</span>
+      <button class="btn btn--accent" id="checkoutBtn" disabled>Checkout (purchase event)</button>
+    </div>
+  </section>
+
+  <!-- ================= LIVE INSPECTOR ================= -->
+  <section class="card" id="inspector">
+    <h2><span class="num">4</span> Live dataLayer inspector</h2>
+    <p class="lead">
+      Every push is logged here, newest first — the same data GTM sees. This is your
+      offline stand-in for Tag Assistant's variable view.
+    </p>
+    <div class="inspector-toolbar">
+      <button class="btn btn--ghost btn--sm" id="clearLog">Clear log</button>
+      <button class="btn btn--ghost btn--sm" id="dumpLog">Dump full dataLayer to console</button>
+      <span class="counter">Pushes: <strong id="pushCount">0</strong></span>
+    </div>
+    <div id="log" class="log">
+      <p class="log__empty">No events yet — fire something above to see it appear here.</p>
+    </div>
+  </section>
+
+  <!-- ================= CHEAT SHEET ================= -->
+  <section class="card" id="cheatsheet">
+    <h2><span class="num">5</span> Testing checklist &amp; cheat sheet</h2>
+    <div class="grid grid--2">
+      <div>
+        <h3>How to verify in GTM</h3>
+        <ol class="steps">
+          <li>In GTM, click <strong>Preview</strong> (top right).</li>
+          <li>Enter this page's URL → <strong>Connect</strong>.</li>
+          <li>Tag Assistant opens alongside the page.</li>
+          <li>Fire an event here; watch it appear in the left timeline.</li>
+          <li>Click the event to inspect <strong>Variables</strong>, <strong>Data Layer</strong>, and which <strong>Tags Fired</strong>.</li>
+        </ol>
+      </div>
+      <div>
+        <h3>Push it yourself (console)</h3>
+        <pre class="code">window.dataLayer.push({
+  event: 'my_test',
+  value: 42,
+  page_section: 'hero'
+});</pre>
+        <p class="hint">Open DevTools console and paste — it'll show in the inspector above and in GTM Preview.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>GTM Playground · a learning sandbox. Container ID: <code id="footerId">GTM-NBJGCQTK</code></p>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
